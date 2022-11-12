@@ -1,6 +1,9 @@
 package org.fran.springcloud.msvc.usuarios.models.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "usuarios")
@@ -10,11 +13,15 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "El campo nombre no puede ser vacío")
     private String nombre;
 
     @Column(unique = true)
+    @NotBlank
+    @Email
     private String email;
 
+    @NotBlank
     private String password;
 
     public Long getId() {

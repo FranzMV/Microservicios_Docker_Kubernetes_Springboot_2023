@@ -1,6 +1,8 @@
 package org.fran.springcloud.msvc.cursos.models.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "cursos")
@@ -10,6 +12,7 @@ public class Curso {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "El campo nombre no puede quedar vacío")
     private String nombre;
 
     public Long getId() {
