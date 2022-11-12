@@ -16,7 +16,7 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
-    @GetMapping
+    @GetMapping("/")
     public List<Usuario> listarUsuarios(){
         return usuarioService.listarUsuarios();
     }
@@ -30,7 +30,7 @@ public class UsuarioController {
         return ResponseEntity.notFound().build();
     }
 
-    @PostMapping
+    @PostMapping("/")
     public ResponseEntity<?> crearUsuario(@RequestBody Usuario usuario){
         return ResponseEntity.status(HttpStatus.CREATED).body(usuarioService.guardarUsuario(usuario));
     }
