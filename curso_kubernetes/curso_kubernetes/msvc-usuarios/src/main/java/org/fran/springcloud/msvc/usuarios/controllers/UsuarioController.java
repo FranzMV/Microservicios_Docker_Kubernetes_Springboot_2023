@@ -33,7 +33,6 @@ public class UsuarioController {
 
     @PostMapping("/")
     public ResponseEntity<?> crearUsuario(@Valid @RequestBody Usuario usuario, BindingResult result){
-
         if(result.hasErrors()){ return validar(result); }
         if(!usuario.getEmail().isEmpty() && usuarioService.usuarioExistePorEmail(usuario.getEmail())){
             return ResponseEntity.badRequest()
