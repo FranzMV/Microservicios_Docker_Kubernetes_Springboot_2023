@@ -100,6 +100,13 @@ public class CursoController {
                 ResponseEntity.notFound().build();
     }
 
+    @DeleteMapping("/eliminar-usuario/{id}")
+    public ResponseEntity<?> eliminarCursoUsuarioPorId(@PathVariable Long id){
+        cursoService.eliminarCursoUsuarioPorId(id);
+        return ResponseEntity.noContent().build();
+    }
+
+
     private ResponseEntity<Map<String, String>> validar(BindingResult result) {
         Map<String, String> errores = new HashMap<>();
         result.getFieldErrors().forEach(error -> errores.put(error.getField(), "El campo ".concat(error.getField()).concat(" "+error.getDefaultMessage() )));
