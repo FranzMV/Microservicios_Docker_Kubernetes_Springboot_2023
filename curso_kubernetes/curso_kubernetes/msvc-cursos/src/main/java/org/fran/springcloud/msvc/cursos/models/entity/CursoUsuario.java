@@ -34,6 +34,6 @@ public class CursoUsuario {
         if(this == obj) { return  true; }
         if(!(obj instanceof CursoUsuario)) { return false; }
         CursoUsuario cursoUsuario = (CursoUsuario) obj;
-        return this.usuarioId != null && this.usuarioId.equals(((CursoUsuario) obj).usuarioId);
+        return this.usuarioId != null && this.usuarioId.equals(cursoUsuario.usuarioId);
     }
 }

@@ -64,12 +64,13 @@ public class CursoController {
     public ResponseEntity<?> asignarUsuario(@RequestBody Usuario usuario, @PathVariable Long cursoId){
         Optional<Usuario> usuarioOptional;
         try{
-            usuarioOptional = cursoService.asignarUsuarioCurso(usuario, cursoId);
+            usuarioOptional = cursoService.asignarUsuario(usuario, cursoId);
         }catch (FeignException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.singletonMap("ERROR", "No existe el " +
                     "usuario por id o error en la comunicación: ".concat(e.getMessage())));
         }
-        return usuarioOptional.isPresent() ? ResponseEntity.status(HttpStatus.CREATED).body(usuarioOptional.get()) : ResponseEntity.notFound().build();
+
+        return usuarioOptional.isPresent() ?  ResponseEntity.status(HttpStatus.CREATED).body(usuarioOptional.get()) : ResponseEntity.notFound().build();
     }
 
     @PostMapping("/crear-usuario/{cursoId}")
@@ -81,6 +82,7 @@ public class CursoController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.singletonMap("ERROR",
                     "No se pudo crear el usuario o error en la comunicación: ".concat(e.getMessage())));
         }
+
         return usuarioOptional.isPresent() ? ResponseEntity.status(HttpStatus.CREATED).body(usuarioOptional.get()) : ResponseEntity.notFound().build();
     }
 
@@ -89,7 +91,7 @@ public class CursoController {
     public ResponseEntity<?> eliminarUsuario(@RequestBody Usuario usuario, @PathVariable Long cursoId){
         Optional<Usuario> usuarioOptional;
         try{
-            usuarioOptional = cursoService.eliminarUsuarioCurso(usuario, cursoId);
+            usuarioOptional = cursoService.eliminarUsuario(usuario, cursoId);
         }catch (FeignException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.singletonMap("ERROR", "No existe el " +
                     "usuario por id o error en la comunicación: ".concat(e.getMessage())));

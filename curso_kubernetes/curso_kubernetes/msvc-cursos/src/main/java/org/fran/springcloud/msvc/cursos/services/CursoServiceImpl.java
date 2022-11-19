@@ -47,18 +47,17 @@ public class CursoServiceImpl implements CursoService{
 
     @Override
     @Transactional
-    public Optional<Usuario> asignarUsuarioCurso(Usuario usuario, Long cursoId) {
+    public Optional<Usuario> asignarUsuario(Usuario usuario, Long cursoId) {
         Optional<Curso> cursoOptional = cursoRepository.findById(cursoId);
         if(cursoOptional.isPresent()){
-            //validar que el usuario existe en el microservicio
             Usuario usuarioMsvc = usuarioClientRest.listarUsuarioPorId(usuario.getId());
+
             Curso curso = cursoOptional.get();
             CursoUsuario cursoUsuario = new CursoUsuario();
             cursoUsuario.setUsuarioId(usuarioMsvc.getId());
-            //Asignamos el curso
+
             curso.addCursoUsuario(cursoUsuario);
             cursoRepository.save(curso);
-
             return Optional.of(usuarioMsvc);
 
         }
@@ -70,12 +69,13 @@ public class CursoServiceImpl implements CursoService{
     public Optional<Usuario> crearUsuario(Usuario usuario, Long cursoId) {
         Optional<Curso> cursoOptional = cursoRepository.findById(cursoId);
         if(cursoOptional.isPresent()){
-            //añadimos el nuevo usuario
             Usuario usuarioNuevoMsvc = usuarioClientRest.crearUsuario(usuario);
-            Curso curso = cursoOptional.get();//Obtenemos el curso
-            CursoUsuario cursoUsuario = new CursoUsuario();//Instancia relacion curso-usuario.
-            cursoUsuario.setUsuarioId(usuarioNuevoMsvc.getId());//Se añade a la relacion curso-usuario
-            curso.addCursoUsuario(cursoUsuario); //Le asignamos el curso al nuevo usuario
+
+            Curso curso = cursoOptional.get();
+            CursoUsuario cursoUsuario = new CursoUsuario();
+            cursoUsuario.setUsuarioId(usuarioNuevoMsvc.getId());
+
+            curso.addCursoUsuario(cursoUsuario);
             cursoRepository.save(curso);
 
             return Optional.of(usuarioNuevoMsvc);
@@ -85,15 +85,15 @@ public class CursoServiceImpl implements CursoService{
 
     @Override
     @Transactional
-    public Optional<Usuario> eliminarUsuarioCurso(Usuario usuario, Long cursoId) {
+    public Optional<Usuario> eliminarUsuario(Usuario usuario, Long cursoId) {
         Optional<Curso> cursoOptional = cursoRepository.findById(cursoId);
         if(cursoOptional.isPresent()){
-            //validar que el usuario existe en el microservicio
             Usuario usuarioMsvc = usuarioClientRest.listarUsuarioPorId(usuario.getId());
+
             Curso curso = cursoOptional.get();
             CursoUsuario cursoUsuario = new CursoUsuario();
             cursoUsuario.setUsuarioId(usuarioMsvc.getId());
-            //Eliminamos el usuario del curso
+
             curso.removeCursoUsuario(cursoUsuario);
             cursoRepository.save(curso);
 

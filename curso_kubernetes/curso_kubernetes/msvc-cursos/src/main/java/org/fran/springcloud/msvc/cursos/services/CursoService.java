@@ -20,7 +20,7 @@ public interface CursoService {
      * @param cursoId del curso
      * @return Usuario que ha sido asignado al curso
      */
-    Optional<Usuario> asignarUsuarioCurso(Usuario usuario, Long cursoId);
+    Optional<Usuario> asignarUsuario(Usuario usuario, Long cursoId);
 
     /**
      * Crea un nuevo usuario que no exista en el microservicio usuarios.
@@ -38,6 +38,6 @@ public interface CursoService {
      * @param cursoId
      * @return
      */
-    Optional<Usuario> eliminarUsuarioCurso(Usuario usuario, Long cursoId);
+    Optional<Usuario> eliminarUsuario(Usuario usuario, Long cursoId);
 
 }

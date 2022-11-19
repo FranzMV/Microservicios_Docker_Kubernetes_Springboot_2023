@@ -11,14 +11,11 @@ import java.util.List;
 @Table(name = "cursos")
 public class Curso {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    public Curso() {
-        this.cursoUsuarios = new ArrayList<>();
-        this.usuarios = new ArrayList<>();
-    }
 
     @NotBlank(message = "El campo nombre no puede quedar vacío")
     private String nombre;
@@ -29,6 +26,12 @@ public class Curso {
 
     @Transient
     private List<Usuario> usuarios;
+
+    public Curso() {
+        cursoUsuarios = new ArrayList<>();
+        usuarios = new ArrayList<>();
+    }
+
 
     public Long getId() {
         return id;
@@ -54,19 +57,19 @@ public class Curso {
         this.cursoUsuarios = cursoUsuarios;
     }
 
-    public void addCursoUsuario(CursoUsuario cursoUsuario){
-        this.cursoUsuarios.add(cursoUsuario);
-    }
-
-    public void removeCursoUsuario(CursoUsuario cursoUsuario){
-        this.cursoUsuarios.remove(cursoUsuario);
-    }
-
     public List<Usuario> getUsuarios() {
         return usuarios;
     }
 
     public void setUsuarios(List<Usuario> usuarios) {
         this.usuarios = usuarios;
+    }
+
+    public void addCursoUsuario(CursoUsuario cursoUsuario){
+        cursoUsuarios.add(cursoUsuario);
+    }
+
+    public void removeCursoUsuario(CursoUsuario cursoUsuario){
+        cursoUsuarios.remove(cursoUsuario);
     }
 }
