@@ -25,10 +25,7 @@ public class UsuarioController {
     @GetMapping("/{id}")
     public ResponseEntity<?> listarUsuarioPorId(@PathVariable Long id){
         Optional<Usuario> usuarioOptional = usuarioService.buscarUsuarioPorId(id);
-        if(usuarioOptional.isPresent())
-            return  ResponseEntity.ok().body(usuarioOptional.get());
-
-        return ResponseEntity.notFound().build();
+        return usuarioOptional.isPresent() ? ResponseEntity.ok().body(usuarioOptional.get()) : ResponseEntity.notFound().build();
     }
 
     @PostMapping("/")
