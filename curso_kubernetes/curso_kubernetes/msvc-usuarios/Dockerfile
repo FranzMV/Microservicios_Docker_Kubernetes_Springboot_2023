@@ -1,4 +1,4 @@
-FROM openjdk:11
+FROM openjdk:11 as builder
 
 WORKDIR /app/msvc-usuarios
 
@@ -13,6 +13,10 @@ COPY ./msvc-usuarios/src ./src
 
 RUN ./mvnw clean package -DskipTests
 
+#A partir de una imagen a partir de otra
+FROM openjdk:11
+WORKDIR /app
+COPY --from=builder /app/msvc-usuarios/target/msvc-usuarios-0.0.1-SNAPSHOT.jar .
 EXPOSE 8001
 
-ENTRYPOINT ["java", "-jar", "./target/msvc-usuarios-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-jar", "msvc-usuarios-0.0.1-SNAPSHOT.jar"]
