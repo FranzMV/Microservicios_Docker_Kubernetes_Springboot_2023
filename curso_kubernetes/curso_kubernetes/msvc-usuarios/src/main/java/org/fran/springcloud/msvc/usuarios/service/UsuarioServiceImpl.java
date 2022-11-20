@@ -40,7 +40,6 @@ public class UsuarioServiceImpl implements UsuarioService{
     @Override
     @Transactional
     public void eliminarUsuario(Long id) {
-
         usuarioRepository.deleteById(id);
         cursoClienteRest.eliminarCursoUsuarioPorId(id);
     }

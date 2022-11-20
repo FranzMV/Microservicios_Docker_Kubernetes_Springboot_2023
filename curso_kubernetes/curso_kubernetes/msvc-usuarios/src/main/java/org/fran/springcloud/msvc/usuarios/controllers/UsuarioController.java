@@ -25,16 +25,20 @@ public class UsuarioController {
     @GetMapping("/{id}")
     public ResponseEntity<?> listarUsuarioPorId(@PathVariable Long id){
         Optional<Usuario> usuarioOptional = usuarioService.buscarUsuarioPorId(id);
-        return usuarioOptional.isPresent() ? ResponseEntity.ok().body(usuarioOptional.get()) : ResponseEntity.notFound().build();
+
+        return usuarioOptional.isPresent() ?
+                ResponseEntity.ok().body(usuarioOptional.get()) :
+                ResponseEntity.notFound().build();
     }
 
     @PostMapping("/")
     public ResponseEntity<?> crearUsuario(@Valid @RequestBody Usuario usuario, BindingResult result){
         if(result.hasErrors()){ return validar(result); }
+
         if(!usuario.getEmail().isEmpty() && usuarioService.usuarioExistePorEmail(usuario.getEmail())){
-            return ResponseEntity.badRequest()
-                    .body(Collections
-                            .singletonMap("Error","Ya existe un usuario con ese email"));
+            return ResponseEntity
+                    .badRequest()
+                    .body(Collections.singletonMap("Error","Ya existe un usuario con ese email"));
         }
         return ResponseEntity.status(HttpStatus.CREATED).body(usuarioService.guardarUsuario(usuario));
     }
@@ -50,13 +54,14 @@ public class UsuarioController {
                     !usuario.getEmail().equalsIgnoreCase(editarUsuario.getEmail()) &&
                     usuarioService.buscarUsuarioPorEmail(usuario.getEmail()).isPresent()){
 
-                return ResponseEntity.badRequest()
-                        .body(Collections
-                                .singletonMap("Error","Ya existe un usuario con ese email"));
+                return ResponseEntity
+                        .badRequest()
+                        .body(Collections.singletonMap("Error","Ya existe un usuario con ese email"));
             }
             editarUsuario.setNombre(usuario.getNombre());
             editarUsuario.setEmail(usuario.getEmail());
             editarUsuario.setPassword(usuario.getPassword());
+
             return ResponseEntity.status(HttpStatus.CREATED).body(usuarioService.guardarUsuario(editarUsuario));
         }
         return ResponseEntity.notFound().build();
@@ -65,6 +70,7 @@ public class UsuarioController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> eliminarUsuario(@PathVariable Long id){
         Optional<Usuario> optionalUsuario = usuarioService.buscarUsuarioPorId(id);
+
         if(optionalUsuario.isPresent()){
             usuarioService.eliminarUsuario(id);
             return ResponseEntity.noContent().build();

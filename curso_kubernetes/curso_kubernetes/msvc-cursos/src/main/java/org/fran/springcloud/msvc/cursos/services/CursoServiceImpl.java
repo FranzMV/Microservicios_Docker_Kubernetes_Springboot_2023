@@ -38,10 +38,12 @@ public class CursoServiceImpl implements CursoService{
     @Transactional(readOnly = true)
     public Optional<Curso> listarCursoUsuariosPorId(Long id) {
         Optional<Curso> cursoOptional = cursoRepository.findById(id);
+
         if(cursoOptional.isPresent()){
             Curso curso = cursoOptional.get();
             if(!curso.getCursoUsuarios().isEmpty()){
-                List<Long> listaIds = curso.getCursoUsuarios().stream()
+                List<Long> listaIds = curso.getCursoUsuarios()
+                        .stream()
                         .map(CursoUsuario::getUsuarioId)
                         .collect(Collectors.toList());
 
@@ -84,8 +86,8 @@ public class CursoServiceImpl implements CursoService{
 
             curso.addCursoUsuario(cursoUsuario);
             cursoRepository.save(curso);
-            return Optional.of(usuarioMsvc);
 
+            return Optional.of(usuarioMsvc);
         }
         return Optional.empty();
     }
