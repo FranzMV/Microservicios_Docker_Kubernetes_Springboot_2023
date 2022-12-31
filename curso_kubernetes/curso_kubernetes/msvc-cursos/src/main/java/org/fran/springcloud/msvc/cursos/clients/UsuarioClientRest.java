@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Cliente Http que consume el microservicio usuarios
  */
-@FeignClient(name = "msvc-usuarios", url = "localhost:8001")//Microservicio a consumir, ruta url base del microservicio
+@FeignClient(name = "msvc-usuarios", url = "msvc-usuarios:8001")//Microservicio a consumir, ruta url base del microservicio
 public interface UsuarioClientRest {
 
     @GetMapping("/{id}")
