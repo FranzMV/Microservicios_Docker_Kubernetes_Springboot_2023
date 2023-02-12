@@ -1,16 +1,15 @@
 FROM openjdk:11 as builder
-
-WORKDIR /app/msvc-usuarios
+ARG MSCV_NAME=msvc-usuarios
+WORKDIR /app/$MSCV_NAME
 
 COPY ./pom.xml /app
-COPY ./msvc-usuarios/.mvn ./.mvn
-COPY ./msvc-usuarios/mvnw .
-COPY ./msvc-usuarios/pom.xml .
+COPY ./$MSCV_NAME/.mvn ./.mvn
+COPY ./$MSCV_NAME/mvnw .
+COPY ./$MSCV_NAME/pom.xml .
 
 RUN ./mvnw clean package -Dmaven.test.skip -Dmaven.main.skip -Dspring-boot.repackage.skip && rm -r ./target/
 
-COPY ./msvc-usuarios/src ./src
-
+COPY ./$MSCV_NAME/src ./src
 RUN ./mvnw clean package -DskipTests
 
 #A partir de una imagen a partir de otra
@@ -19,8 +18,9 @@ FROM openjdk:11
 WORKDIR /app
 RUN mkdir ./logs
 COPY --from=builder /app/msvc-usuarios/target/msvc-usuarios-0.0.1-SNAPSHOT.jar .
+ARG PORT_APP=8001
 #Puerto interno
-ENV PORT 8000
+ENV PORT $PORT_APP
 EXPOSE $PORT
 
 CMD ["java", "-jar", "msvc-usuarios-0.0.1-SNAPSHOT.jar"]
